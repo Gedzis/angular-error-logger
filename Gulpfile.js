@@ -13,7 +13,7 @@ gulp.task('cleanDist', function (cb) {
 gulp.task('build', ['lint', 'cleanDist'], function () {
     return gulp.src(['src/angular-error-logger-module.js', SOURCES])
         .pipe(ngAnnotate())
-        .pipe(concat('angular-error-logger-service.js'))
+        .pipe(concat('angular-error-logger.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
