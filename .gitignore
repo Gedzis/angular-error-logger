@@ -1,0 +1,6 @@
+*.log
+.grunt
+node_modules
+bower_components
+.idea
+*.iml
