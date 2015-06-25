@@ -1,5 +1,5 @@
 # angular-error-logger
-Server side error logger for Angular
+Angular error logger. It catches errors and sends POST request to specific URL
 
 # Install
 
