@@ -2,9 +2,10 @@ angular.module('angularErrorLogger').factory(
     "angularErrorLoggerService",
     function ($log, $window, exceptionSender, ANGULAR_ERROR_LOGGER_CONFIG) {
         'use strict';
+        var loggedExceptions = [];
+
         function logErrorToServerSide(exception, cause) {
-            var loggedExceptions = [],
-                errorMessage = exception ? exception.toString() : "no exception",
+            var errorMessage = exception ? exception.toString() : "no exception",
                 stackTrace =
                     exception ? (exception.stack ? exception.stack.toString() : "no stack") : "no exception",
                 browserInfo = {
@@ -25,7 +26,7 @@ angular.module('angularErrorLogger').factory(
                 }
                 loggedExceptions.push(stackTrace);
             } else {
-                $log.debug("Dublicated error");
+                $log.debug("Dublicated error. No logging sent");
             }
 
         }
