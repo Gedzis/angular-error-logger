@@ -3,7 +3,8 @@ angular.module('angularErrorLogger').factory(
     function ($log, $window, exceptionSender, ANGULAR_ERROR_LOGGER_CONFIG) {
         'use strict';
         function logErrorToServerSide(exception, cause) {
-            var errorMessage = exception ? exception.toString() : "no exception",
+            var loggedExceptions = [],
+                errorMessage = exception ? exception.toString() : "no exception",
                 stackTrace =
                     exception ? (exception.stack ? exception.stack.toString() : "no stack") : "no exception",
                 browserInfo = {
@@ -17,9 +18,16 @@ angular.module('angularErrorLogger').factory(
                     cause: (cause || "no cause"),
                     browserInfo: browserInfo
                 });
-            if (ANGULAR_ERROR_LOGGER_CONFIG && ANGULAR_ERROR_LOGGER_CONFIG.url) {
-                exceptionSender.sendException(ANGULAR_ERROR_LOGGER_CONFIG.url, data);
+
+            if (loggedExceptions.indexOf(stackTrace) === -1) {
+                if (ANGULAR_ERROR_LOGGER_CONFIG && ANGULAR_ERROR_LOGGER_CONFIG.url) {
+                    exceptionSender.sendException(ANGULAR_ERROR_LOGGER_CONFIG.url, data);
+                }
+                loggedExceptions.push(stackTrace);
+            } else {
+                $log.debug("Dublicated error");
             }
+
         }
 
         function log(exception, cause) {
